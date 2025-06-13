@@ -11,3 +11,4 @@ target/
 
 # output files
 **/*.png
+output/

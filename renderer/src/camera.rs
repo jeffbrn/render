@@ -5,12 +5,12 @@ use nalgebra::{Matrix3, Point2, Point3};
 pub struct Camera {
     k: Matrix3<f32>,
     k_inv: Matrix3<f32>,
-    dim_x: u16,
-    dim_y: u16,
+    dim_x: u32,
+    dim_y: u32,
 }
 
 impl Camera {
-    pub fn new(dim_x: u16, dim_y: u16, pixel_pitch: f32, fov_x: f32, fov_y: f32) -> Self {
+    pub fn new(dim_x: u32, dim_y: u32, pixel_pitch: f32, fov_x: f32, fov_y: f32) -> Self {
         let k = Self::compute_intrinsic_matrix(pixel_pitch, dim_x, dim_y, fov_x, fov_y);
         let k_inv = k.try_inverse().expect("Camera matrix is not invertible");
         Camera {
@@ -34,8 +34,8 @@ impl Camera {
 
     fn compute_intrinsic_matrix(
         pixel_pitch: f32,
-        image_width: u16,
-        image_height: u16,
+        image_width: u32,
+        image_height: u32,
         fov_x: f32,
         fov_y: f32,
     ) -> Matrix3<f32> {

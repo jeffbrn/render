@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rust API</title>
-</head>
-<body>
-    <h1>Welcome to the Rust API</h1>
-    <p>This is a simple web API built with Actix Web.</p>
-    <hr />
-    <img id="image" src="*" width="100%" alt="Rendered Image">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rust API</title>
+    </head>
+    <body>
+        <h1>Welcome to the Rust API</h1>
+        <p>This is a simple web API built with Actix Web.</p>
+        <hr />
+        <img id="image" src="*" width="1024px" alt="Rendered Image" />
 
-    <script>
-        async function fetchImage() {
-            const imageUrl = "http://127.0.0.1:8080/image"; // API endpoint for your image
-            const response = await fetch(imageUrl);
-            if (response.ok) {
-                document.getElementById("image").src = imageUrl;
-            } else {
-                console.error("Failed to load image");
+        <script>
+            async function fetchImage() {
+                const imageUrl = "http://127.0.0.1:8080/output"; // API endpoint for your image
+                const response = await fetch(imageUrl);
+                if (response.ok) {
+                    document.getElementById("image").src = imageUrl;
+                } else {
+                    console.error("Failed to load image");
+                }
             }
-        }
 
-        // Run fetchImage every 200ms
-        setInterval(fetchImage, 200);
-    </script>
-
-</body>
+            // Run fetchImage every 200ms
+            setInterval(fetchImage, 200);
+        </script>
+    </body>
 </html>
