@@ -49,19 +49,6 @@ impl Shape {
     pub fn set_transform(&mut self, t: SE3) {
         self.transform = t;
     }
-    pub fn _transform(&mut self, translation: Vector3<f32>, rotation: nalgebra::Rotation3<f32>) {
-        for i in 0..self.points.len() {
-            let p = self.points[i];
-            let rotated = rotation * p.coords;
-            self.points[i] = (rotated + translation).into();
-        }
-    }
-    pub fn transform_se3(&mut self, t: &SE3) {
-        for i in 0..self.points.len() {
-            let p = t.transform(self.points[i]);
-            self.points[i] = p;
-        }
-    }
     fn project_points(&self, cam: &Camera) -> Vec<Point2<f32>> {
         self.points
             .iter()
@@ -125,8 +112,9 @@ impl Shape {
         let a = h as f32 * 1.2;
         (y as f32 + a) as i32
     }
-    pub fn draw(&self, cam: Camera, canvas: &mut RgbImage) {
-        let uvs = self.project_points(&cam);
+
+    pub fn draw(&self, cam: &Camera, canvas: &mut RgbImage) {
+        let uvs = self.project_points(cam);
         self.draw_shape(canvas, &uvs);
         self.draw_legend(canvas);
     }
