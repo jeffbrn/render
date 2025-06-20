@@ -7,3 +7,5 @@ edition = "2024"
 image = "0.25.6"
 imageproc = "0.25.0"
 nalgebra = "0.33.2"
+ab_glyph = { version = "0.2.23", default-features = false, features = ["std"] }
+crossterm = "0.29.0"

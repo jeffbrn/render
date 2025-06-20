@@ -1,9 +1,13 @@
 mod camera;
+mod se3;
 mod shape;
 
 use camera::Camera;
+use crossterm::event::{Event, KeyCode, read};
+use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
 use image::RgbImage;
 use nalgebra::{Rotation3, Vector3};
+use se3::SE3;
 use shape::Shape;
 
 fn set_attitude(roll: f32, pitch: f32, yaw: f32) -> Rotation3<f32> {
@@ -19,10 +23,28 @@ fn set_attitude(roll: f32, pitch: f32, yaw: f32) -> Rotation3<f32> {
 }
 
 fn main() {
+    println!("Press an arrow key...");
+    enable_raw_mode().expect("Failed to enable raw mode");
+
+    loop {
+        if let Event::Key(event) = read().unwrap() {
+            match event.code {
+                KeyCode::Up => println!("Up arrow"),
+                KeyCode::Down => println!("Down arrow"),
+                KeyCode::Left => println!("Left arrow"),
+                KeyCode::Right => println!("Right arrow"),
+                KeyCode::Esc => break,
+                _ => {}
+            }
+        }
+    }
+    disable_raw_mode().expect("Failed to disable raw mode");
+
     // Settings
     let canvas_size: (u32, u32) = (1024, 800);
     let initial_attitude = set_attitude(15.0, 25.0, 10.0);
     let initial_posn = Vector3::<f32>::new(0.0, 0.0, 30.0);
+    let t = SE3::from_translation_and_rotation(initial_posn, initial_attitude);
     let output_dir: String = "../output/".to_owned();
 
     // Initialize
@@ -31,9 +53,10 @@ fn main() {
 
     // println!("{:?}", cam);
     let mut bx = Shape::new();
-    bx.transform(initial_posn, initial_attitude);
+    bx.set_transform(t);
     bx.draw(cam, &mut img);
 
     // Save the image as a PNG file
-    img.save(output_dir + "img.png").expect("Failed to save image");
+    img.save(output_dir + "img.png")
+        .expect("Failed to save image");
 }
