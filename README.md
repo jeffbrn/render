@@ -47,4 +47,4 @@ Then use the keys to update the image in the browser and then press ESC when don
 
 ### Example Image
 
-[Example Image](docs/example_img.png)
+![Example Image](docs/example_img.png)
